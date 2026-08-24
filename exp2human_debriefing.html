@@ -270,7 +270,7 @@ var total_n_trials = phase1_n_trials + phase2_n_trials;
             '<p><strong>2.</strong> How confident are you in your choice? (0-100 slider)</p>' +
             '<p><strong>Please note:</strong></p>' +
             '<ul>' +
-              '<li>The entire study will take approximately <strong>25 minutes</strong> to complete.</li>' +
+              '<li>The entire study will take approximately <strong>35 minutes</strong> to complete.</li>' +
               // '<li> After that, the task will end automatically.</li>' +
               '<li>Please rely on your own knowledge and intuition.</li>' +
               '<li>Please do not use any external resources (e.g. Google or other online search engines) to look for answers during the experiment.</li>' +
@@ -535,7 +535,7 @@ function createPhase2Trial(statement, index) {
     type: jsPsychHtmlButtonResponse,
     stimulus:
       // strong
-      '<p style="font-size:20px; margin-bottom:20px;"><strong>' + statement + '</strong></p>' +
+      '<p id="statement-box" class="statement-box" data-plain="' + escapeHtml(statement) + '" style="font-size:20px; margin-bottom:20px;"><strong>' + buildStatementHTML(statement) + '</strong></p>' +
 
       // '<p>Answer from an generative AI</strong>: <strong>False</strong>.</p>' +
       // '<p>Answer from a participant</strong>: <strong>True</strong>.</p>' +
@@ -635,6 +635,7 @@ on_load: function () {
   var q2 = display.querySelector('#q2');
   var slider = display.querySelector('#conf-slider');
   var valueSpan = display.querySelector('#conf-value');
+  var statementBox = display.querySelector('#statement-box');
 
   var buttons = display.querySelectorAll('.choice-btn');
 
@@ -648,6 +649,36 @@ on_load: function () {
   phase2CurrentConfidence = slider.value;
 
   valueSpan.textContent = slider.value;
+
+  if (statementBox) {
+    statementBox.addEventListener('copy', function(e) {
+      var obfuscatedText = buildObfuscatedClipboardText(statement);
+      if (e.clipboardData) {
+        e.clipboardData.setData('text/plain', obfuscatedText);
+        e.preventDefault();
+      }
+    });
+
+    statementBox.addEventListener('cut', function(e) {
+      var obfuscatedText = buildObfuscatedClipboardText(statement);
+      if (e.clipboardData) {
+        e.clipboardData.setData('text/plain', obfuscatedText);
+        e.preventDefault();
+      }
+    });
+
+    statementBox.addEventListener('dragstart', function(e) {
+      if (e.dataTransfer) {
+        e.dataTransfer.setData('text/plain', buildObfuscatedClipboardText(statement));
+      }
+    });
+  }
+
+  document.addEventListener('contextmenu', function(e) {
+    if (statementBox && statementBox.contains(e.target)) {
+      e.preventDefault();
+    }
+  }, { once: true });
 
   // slider 
   slider.addEventListener('input', function () {

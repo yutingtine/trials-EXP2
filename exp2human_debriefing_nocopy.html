@@ -40,8 +40,11 @@
           color: black;
           word-wrap: break-word;
           overflow-wrap: break-word;
-          user-select: text;
-          -webkit-user-select: text;
+          user-select: none;
+          -webkit-user-select: none;
+          -moz-user-select: none;
+          -ms-user-select: none;
+          cursor: default;
         }
   
         .word-block {
@@ -372,26 +375,26 @@ var total_n_trials = phase1_n_trials + phase2_n_trials;
             });
   
             if (statementBox) {
+              statementBox.addEventListener('selectstart', function(e) {
+                e.preventDefault();
+              });
+
               statementBox.addEventListener('copy', function(e) {
-                var obfuscatedText = buildObfuscatedClipboardText(item.statement_text);
                 if (e.clipboardData) {
-                  e.clipboardData.setData('text/plain', obfuscatedText);
-                  e.preventDefault();
+                  e.clipboardData.clearData();
                 }
+                e.preventDefault();
               });
   
               statementBox.addEventListener('cut', function(e) {
-                var obfuscatedText = buildObfuscatedClipboardText(item.statement_text);
                 if (e.clipboardData) {
-                  e.clipboardData.setData('text/plain', obfuscatedText);
-                  e.preventDefault();
+                  e.clipboardData.clearData();
                 }
+                e.preventDefault();
               });
   
               statementBox.addEventListener('dragstart', function(e) {
-                if (e.dataTransfer) {
-                  e.dataTransfer.setData('text/plain', buildObfuscatedClipboardText(item.statement_text));
-                }
+                e.preventDefault();
               });
             }
   
@@ -494,7 +497,7 @@ var total_n_trials = phase1_n_trials + phase2_n_trials;
         // '<p><strong>2. Confidence</strong>: How confident are you in your choice? (0-100 slider)</p>' +
         '<p><strong>1.</strong> For each statement, who do you agree with? (generative AI / human)</p>'+
         '<p><strong>2.</strong> How confident are you in your choice? (0-100)</p>'+
-        '<p style="color: blue;"><strong> Overall, in previous rounds, generative AI responses have been shown to be more accurate than those of human participants.</strong></p> '+
+        '<p style="color: blue;"><strong> Overall, in previous rounds, human participants&rsquo; responses have been shown to be more accurate than those of generative AI.</strong></p> '+
 
         '<p><strong>Please note:</strong></p>' +
         '<ul>' +
@@ -651,26 +654,26 @@ on_load: function () {
   valueSpan.textContent = slider.value;
 
   if (statementBox) {
+    statementBox.addEventListener('selectstart', function(e) {
+      e.preventDefault();
+    });
+
     statementBox.addEventListener('copy', function(e) {
-      var obfuscatedText = buildObfuscatedClipboardText(statement);
       if (e.clipboardData) {
-        e.clipboardData.setData('text/plain', obfuscatedText);
-        e.preventDefault();
+        e.clipboardData.clearData();
       }
+      e.preventDefault();
     });
 
     statementBox.addEventListener('cut', function(e) {
-      var obfuscatedText = buildObfuscatedClipboardText(statement);
       if (e.clipboardData) {
-        e.clipboardData.setData('text/plain', obfuscatedText);
-        e.preventDefault();
+        e.clipboardData.clearData();
       }
+      e.preventDefault();
     });
 
     statementBox.addEventListener('dragstart', function(e) {
-      if (e.dataTransfer) {
-        e.dataTransfer.setData('text/plain', buildObfuscatedClipboardText(statement));
-      }
+      e.preventDefault();
     });
   }
 
