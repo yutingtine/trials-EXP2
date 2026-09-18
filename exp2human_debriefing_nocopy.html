@@ -70,6 +70,142 @@
           margin-top: 20px;
           min-height: 160px;
         }
+
+        .source-choice-row {
+          width: 760px;
+          max-width: 92vw;
+          margin: 28px auto;
+          display: flex;
+          align-items: flex-start;
+          justify-content: center;
+          gap: 32px;
+        }
+
+        .source-option {
+          flex: 1 1 0;
+          max-width: 420px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 16px;
+        }
+
+        .source-avatar-block {
+          flex: 0 0 92px;
+          width: 92px;
+          text-align: center;
+        }
+
+        .source-avatar {
+          display: block;
+          width: 72px;
+          height: 72px;
+          margin: 0 auto 7px;
+        }
+
+        .source-label {
+          color: #374151;
+          font-size: 15px;
+          font-weight: 600;
+          line-height: 1.2;
+          white-space: nowrap;
+        }
+
+        .choice-btn.speech-bubble {
+          position: relative;
+          box-sizing: border-box;
+          width: 180px;
+          min-height: 64px;
+          padding: 10px 18px;
+          border: 2px solid #c7cbd1;
+          border-radius: 16px;
+          background: #ffffff;
+          color: #20242a;
+          font-family: inherit;
+          font-size: 20px;
+          font-weight: 600;
+          cursor: pointer;
+          transition: background 120ms ease, border-color 120ms ease;
+        }
+
+        .choice-btn.speech-bubble::before {
+          content: "";
+          position: absolute;
+          top: 22px;
+          width: 16px;
+          height: 16px;
+          background: #ffffff;
+          transform: rotate(45deg);
+          transition: background 120ms ease, border-color 120ms ease;
+        }
+
+        .ai-option .speech-bubble::before {
+          left: -9px;
+          border-bottom: 2px solid #c7cbd1;
+          border-left: 2px solid #c7cbd1;
+        }
+
+        .human-option .speech-bubble::before {
+          right: -9px;
+          border-top: 2px solid #c7cbd1;
+          border-right: 2px solid #c7cbd1;
+        }
+
+        .choice-btn.speech-bubble:hover {
+          border-color: #7aaef0;
+          background: #f5f9ff;
+        }
+
+        .choice-btn.speech-bubble:hover::before {
+          background: #f5f9ff;
+          border-color: #7aaef0;
+        }
+
+        .choice-btn.speech-bubble.selected {
+          border-color: #087cf0;
+          background: #e6f0ff;
+        }
+
+        .choice-btn.speech-bubble.selected::before {
+          background: #e6f0ff;
+          border-color: #087cf0;
+        }
+
+        @media (max-width: 760px) {
+          .source-choice-row {
+            width: 96vw;
+            gap: 20px;
+          }
+
+          .source-option {
+            gap: 10px;
+          }
+
+          .source-avatar-block {
+            flex-basis: 76px;
+            width: 76px;
+          }
+
+          .source-avatar {
+            width: 60px;
+            height: 60px;
+          }
+
+          .source-label {
+            font-size: 13px;
+          }
+
+          .choice-btn.speech-bubble {
+            width: 130px;
+            min-height: 60px;
+            padding: 10px 12px;
+            font-size: 20px;
+          }
+
+          .choice-btn.speech-bubble::before {
+            top: 20px;
+          }
+        }
       </style>
     </head>
     <body></body>
@@ -466,7 +602,7 @@ var total_n_trials = phase1_n_trials + phase2_n_trials;
 
           "<p>AI systems are now integrated into many everyday tools. For example, when searching for information or asking a question online, services may provide an <strong>AI-generated answer</strong> produced by systems such as <strong>OpenAI's GPT</strong> models. An example is shown in Figure 1 below.</p>"+
 
-          '<img src="pic/gpt.png" style="width:100%; margin-top:10px; border:1px solid #ccc;">'+
+          '<img src="pic/gpt_crop.jpg" style="display:block; width:120%; max-width:none; position:relative; left:50%; transform:translateX(-50%); margin-top:10px; border:1px solid #ccc;">' +
           '<p><em>Figure 1. Example of an AI-generated answer using a GPT model.</em></p>'+
 
           '<p>Some other widely used examples include <strong>Gemini</strong>, <strong>Claude</strong>, and <strong>Microsoft Copilot</strong>. These systems can generate answers, explanations, and suggestions across a wide range of everyday topics. When searching on Google, you may also see an "AI Overview"-a type of AI-generated answer that similarly draws on such models.</p>'+
@@ -544,16 +680,40 @@ function createPhase2Trial(statement, index) {
       // '<p>Answer from a participant</strong>: <strong>True</strong>.</p>' +
       '<p>1. Who do you agree with?</p>' +
 
-      '<div style="display:flex; justify-content:center; gap:40px; margin:25px 0;">' +
+      '<div class="source-choice-row">' +
+        '<div class="source-option ai-option">' +
+          '<div class="source-avatar-block">' +
+            '<svg class="source-avatar" viewBox="0 0 80 80" aria-hidden="true">' +
+              '<circle cx="40" cy="40" r="38" fill="#eef3ff" stroke="#4b61b3" stroke-width="2.5"/>' +
+              '<path d="M18 39v-7c0-13 10-23 22-23s22 10 22 23v7" fill="none" stroke="#4b61b3" stroke-width="4" stroke-linecap="round"/>' +
+              '<rect x="22" y="25" width="36" height="31" rx="14" fill="#ffffff" stroke="#555b63" stroke-width="2.5"/>' +
+              '<rect x="27" y="34" width="26" height="13" rx="6.5" fill="#4b4f55"/>' +
+              '<circle cx="34" cy="40.5" r="2.2" fill="#ffffff"/><circle cx="46" cy="40.5" r="2.2" fill="#ffffff"/>' +
+              '<rect x="13" y="31" width="8" height="21" rx="4" fill="#4b61b3"/><rect x="59" y="31" width="8" height="21" rx="4" fill="#4b61b3"/>' +
+              '<path d="M29 62c3.5-3 7-4.5 11-4.5S47 59 51 62" fill="none" stroke="#555b63" stroke-width="2.5" stroke-linecap="round"/>' +
+            '</svg>' +
+            '<div class="source-label">Generative AI</div>' +
+          '</div>' +
+          '<button class="choice-btn speech-bubble" data-value="chatbot" aria-label="Generative AI answer: ' + phase2_answer_assignments[statement].ai + '">' +
+            phase2_answer_assignments[statement].ai +
+          '</button>' +
+        '</div>' +
 
-        '<button class="choice-btn" data-value="chatbot" ' +
-        'style="width:220px; padding:14px 0; font-size:16px; border:2px solid #ccc; border-radius:10px; background:white; cursor:pointer;">' +
-        'Generative AI: ' + phase2_answer_assignments[statement].ai + '</button>' +
-
-        '<button class="choice-btn" data-value="human" ' +
-        'style="width:220px; padding:14px 0; font-size:16px; border:2px solid #ccc; border-radius:10px; background:white; cursor:pointer;">' +
-        'Human: ' + phase2_answer_assignments[statement].human + '</button>' +
-
+        '<div class="source-option human-option">' +
+          '<button class="choice-btn speech-bubble" data-value="human" aria-label="Human answer: ' + phase2_answer_assignments[statement].human + '">' +
+            phase2_answer_assignments[statement].human +
+          '</button>' +
+          '<div class="source-avatar-block">' +
+            '<svg class="source-avatar" viewBox="0 0 80 80" aria-hidden="true">' +
+              '<circle cx="40" cy="40" r="38" fill="#eef3ff" stroke="#4b61b3" stroke-width="2.5"/>' +
+              '<circle cx="40" cy="31" r="13" fill="#ffffff" stroke="#555b63" stroke-width="2.5"/>' +
+              '<path d="M27 31c0-10 5-16 13-16 9 0 14 6 14 15-4-1-8-4-10-8-4 5-9 8-17 9Z" fill="#4b4f55"/>' +
+              '<path d="M19 64c2-12 10-19 21-19s19 7 21 19" fill="#4b61b3" stroke="#555b63" stroke-width="2.5" stroke-linejoin="round"/>' +
+              '<path d="M33 47c2 4 4 6 7 6s6-2 8-6" fill="none" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round"/>' +
+            '</svg>' +
+            '<div class="source-label">Human</div>' +
+          '</div>' +
+        '</div>' +
       '</div>' +
 
       
@@ -700,15 +860,11 @@ on_load: function () {
       sourceChosen = true;
       phase2CurrentTruth = this.getAttribute('data-value');
 
-      // clear highlight
-      buttons.forEach(b => {
-        b.style.border = '2px solid #ccc';
-        b.style.background = 'white';
+      // clear and update the selected speech bubble
+      buttons.forEach(function (button) {
+        button.classList.remove('selected');
       });
-
-      // highlight
-      this.style.border = '2px solid #007bff';
-      this.style.background = '#e6f0ff';
+      this.classList.add('selected');
 
       if (sliderMoved && sourceChosen) nextButton.disabled = false;
     });
